@@ -15,30 +15,56 @@ namespace systemui {
     // -------------------------
 
     // CREATE LOADING SPRITE
-    //% group="Loading"
-    //% block="create loading sprite"
-    //% blockSetVariable=load
-    export function createLoadingSprite(): Sprite {
-        let s = sprites.create(img`
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . 8 8 8 8 8 . . . . . . . 
-            . . . 8 . . . . . . 9 9 . . . . 
-            . . . . . 8 . . . . 9 . . . . . 
-            . . . . 8 8 . . . . . 9 . . . . 
-            . . . . . . . 9 9 9 9 . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-            . . . . . . . . . . . . . . . . 
-        `, LoaderKind)
-        return s
+//% group="Loading"
+//% block="create loading sprite"
+//% blockSetVariable=load
+export function createLoadingSprite(): Sprite {
+
+    // AUTO‑CLEAR EVERYTHING BEFORE LOADING
+    sprites.destroyAllSpritesOfKind(SpriteKind.Player)
+    sprites.destroyAllSpritesOfKind(SpriteKind.Projectile)
+    sprites.destroyAllSpritesOfKind(SpriteKind.Enemy)
+    sprites.destroyAllSpritesOfKind(SpriteKind.Food)
+
+    for (let s of sprites.allOfKind(SpriteKind.Player)) {
+        animation.stopAnimation(animation.AnimationTypes.All, s)
     }
+    for (let s of sprites.allOfKind(SpriteKind.Projectile)) {
+        animation.stopAnimation(animation.AnimationTypes.All, s)
+    }
+    for (let s of sprites.allOfKind(SpriteKind.Enemy)) {
+        animation.stopAnimation(animation.AnimationTypes.All, s)
+    }
+    for (let s of sprites.allOfKind(SpriteKind.Food)) {
+        animation.stopAnimation(animation.AnimationTypes.All, s)
+    }
+
+    // reset background
+    scene.setBackgroundImage(img``)
+
+    // NOW CREATE THE LOADING SPRITE
+    let s = sprites.create(img`
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . 8 8 8 8 8 . . . . . . . 
+        . . . 8 . . . . . . 9 9 . . . . 
+        . . . . . 8 . . . . 9 . . . . . 
+        . . . . 8 8 . . . . . 9 . . . . 
+        . . . . . . . 9 9 9 9 . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+        . . . . . . . . . . . . . . . . 
+    `, LoaderKind)
+
+    return s
+}
+
     
 
     // POSITION LOADER
