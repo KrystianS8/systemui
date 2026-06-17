@@ -4,5 +4,6 @@
     "description": "UI loading and saving animations",
     "dependencies": {
         "device": "*"
-    }
+    },
+    "preferredEditor": "arcade"
 }
